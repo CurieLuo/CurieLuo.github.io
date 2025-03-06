@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://curieluo.github.io/pages/notes/Attention-Learning-Notes-Summary/MQA&amp;GQA.png">
 <meta property="og:image" content="https://curieluo.github.io/pages/notes/Attention-Learning-Notes-Summary/BigBirdSparseAttention.png">
 <meta property="article:published_time" content="2025-02-18T17:36:03.000Z">
-<meta property="article:modified_time" content="2025-02-19T20:43:49.265Z">
+<meta property="article:modified_time" content="2025-03-06T23:54:02.208Z">
 <meta property="article:author" content="Curie Luo">
 <meta property="article:tag" content="LLM">
 <meta property="article:tag" content="transformer">
@@ -116,7 +116,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#KV-Cache"><span class="nav-number">1.</span> <span class="nav-text">KV Cache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MHA-Variations-%E5%A4%9A%E5%A4%B4%E6%B3%A8%E6%84%8F%E5%8A%9B%E5%8F%98%E4%BD%93"><span class="nav-number">2.</span> <span class="nav-text">MHA Variations  (多头注意力变体)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MQA-amp-GQA"><span class="nav-number">2.1.</span> <span class="nav-text">MQA &amp; GQA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MLA-%E5%A4%9A%E5%A4%B4%E6%BD%9C%E5%9C%A8%E6%B3%A8%E6%84%8F%E5%8A%9B"><span class="nav-number">2.2.</span> <span class="nav-text">MLA (多头潜在注意力)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sparse-Attention-%E7%A8%80%E7%96%8F%E6%B3%A8%E6%84%8F%E5%8A%9B"><span class="nav-number">3.</span> <span class="nav-text">Sparse Attention  (稀疏注意力)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linear-Attention"><span class="nav-number">4.</span> <span class="nav-text">Linear Attention</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Positional-Encoding"><span class="nav-number">1.</span> <span class="nav-text">Positional Encoding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KV-Cache"><span class="nav-number">2.</span> <span class="nav-text">KV Cache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MHA-Variations-for-Reducing-KV-Cache"><span class="nav-number">3.</span> <span class="nav-text">MHA Variations (for Reducing KV Cache)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MQA-amp-GQA"><span class="nav-number">3.1.</span> <span class="nav-text">MQA &amp; GQA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MLA"><span class="nav-number">3.2.</span> <span class="nav-text">MLA</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sparse-Attention"><span class="nav-number">4.</span> <span class="nav-text">Sparse Attention</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linear-Attention"><span class="nav-number">5.</span> <span class="nav-text">Linear Attention</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -227,14 +227,21 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><html><head></head><body><h2 id="KV-Cache"><a href="#KV-Cache" class="headerlink" title="KV Cache"></a>KV Cache</h2><p>KV Cache用于在推理阶段加速decoder部分的矩阵乘法, 避免GPT自回归中相同前缀产生的大量重复计算.</p>
+    <div class="post-body" itemprop="articleBody"><html><head></head><body><h2 id="Positional-Encoding"><a href="#Positional-Encoding" class="headerlink" title="Positional Encoding"></a>Positional Encoding</h2><p>todo</p>
+<h2 id="KV-Cache"><a href="#KV-Cache" class="headerlink" title="KV Cache"></a>KV Cache</h2><p>KV Cache用于在推理阶段加速decoder部分的矩阵乘法, 避免GPT自回归中相同前缀产生的大量重复计算.</p>
 <p><img src="/pages/notes/Attention-Learning-Notes-Summary/KV-Cache.gif" alt="KV-Cache"></p>
-<p>每次输出一个新的token, 不需要重新计算 $QK^\mathsf{T}$. 因为decoder掩码去掉了所有旧token对新token的注意力, 所以我们只需要计算新token的 $q$ 对整个 $K$ 的注意力 $qK^\mathsf{T}$.</p>
-<h2 id="MHA-Variations-多头注意力变体"><a href="#MHA-Variations-多头注意力变体" class="headerlink" title="MHA Variations  (多头注意力变体)"></a>MHA Variations  (多头注意力变体)</h2><h3 id="MQA-amp-GQA"><a href="#MQA-amp-GQA" class="headerlink" title="MQA &amp; GQA"></a>MQA &amp; GQA</h3><p>MQA = Multi-Query Attention, 所有注意力头有不同的Q, 共享一个K和V.</p>
-<p>更generalized的是 GQA = Grouped-Query Attention, 将注意力头和对应的Q分成多组, 一组共享一个K和V.</p>
+<p>每次输出一个新的token, 不需要重新计算 $QK^\mathsf{T}$. 因为decoder掩码去掉了所有旧token对新token的注意力, 所以我们只需要计算新token的 $q$ 对整个 $K$ (已缓存)的注意力 $qK^\mathsf{T}$, 取softmax后再与$V$(已缓存)相乘得到新的token.</p>
+<h2 id="MHA-Variations-for-Reducing-KV-Cache"><a href="#MHA-Variations-for-Reducing-KV-Cache" class="headerlink" title="MHA Variations (for Reducing KV Cache)"></a>MHA Variations (for Reducing KV Cache)</h2><p>MHA = Multi-Head Attention</p>
+<h3 id="MQA-amp-GQA"><a href="#MQA-amp-GQA" class="headerlink" title="MQA &amp; GQA"></a>MQA &amp; GQA</h3><p>MQA = Multi-Query Attention, 所有注意力头有不同的 $Q$ , 共享一个 $K, V$.</p>
+<p>更generalized的是GQA = Grouped-Query Attention, 将注意力头和对应的Q分成多组, 一组共享一份 $K, V$.</p>
+<p>两者都是牺牲模型性能来减小KV Cache显存占用. 对比MLA, 可以把MQA/GQA看作是用一组不可学习的固定映射来压缩 $K, V$.</p>
 <p>​    <img src="/pages/notes/Attention-Learning-Notes-Summary/MQA&amp;GQA.png" alt="MQA&amp;GQA"></p>
-<h3 id="MLA-多头潜在注意力"><a href="#MLA-多头潜在注意力" class="headerlink" title="MLA (多头潜在注意力)"></a>MLA (多头潜在注意力)</h3><p>todo</p>
-<h2 id="Sparse-Attention-稀疏注意力"><a href="#Sparse-Attention-稀疏注意力" class="headerlink" title="Sparse Attention  (稀疏注意力)"></a>Sparse Attention  (稀疏注意力)</h2><p>出发点: 减小自注意力的 $\Theta(n^2)$ 时间复杂度.</p>
+<h3 id="MLA"><a href="#MLA" class="headerlink" title="MLA"></a>MLA</h3><p>参考文章: <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/696671064">速读 deepseek v2（一） —— 理解MLA</a>, <a target="_blank" rel="noopener" href="https://kexue.fm/archives/10091">缓存与效果的极限拉扯：从MHA、MQA、GQA到MLA</a>.</p>
+<p>论文: <a href="/pages/notes/Attention-Learning-Notes-Summary/DeepSeek-V2.pdf" title="DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model">DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model</a>.</p>
+<p>MLA = Multi-head Latent Attention, 通过低维矩阵 $C^{KV}$ 代替 $K$ 和 $V$ 来节省显存, 同时还维持和MHA相当的模型推理速度和性能. 为了保证推理速度, 实际中并没有将 $c^{KV}$ 映射回 $k$ 和 $v$, 而是根据矩阵乘法结合律, 将相应参数矩阵 $W^{UK}$ 和 $W^{UV}$ (上标 $U$ 表示升维) 和其他系数矩阵相乘结果预处理 (以下为 $W^Q$ 吸收 $W^{UK}$ 推导, 同理 $W^O$ 可以吸收 $W^{UV}$):</p>
+<script type="math/tex; mode=display">
+q_i^\mathsf{T}k_j=(W^Qx_i)^\mathsf{T}(W^{UK}c_j)=x_i^\mathsf{T}((W^{Q})^\mathsf{T}W^{UK})c_j.</script><p>如果使用RoPE位置编码, 会在$W^Q$ 和 $W^{UK}$ 之间插入矩阵 $R_{i-j}$ , 导致无法预处理. 解决方法: 将 $k, q$ 向量延长一小段, 专门用来记录RoPE信息, 不参与低维压缩, 推理时需要单独缓存.</p>
+<h2 id="Sparse-Attention"><a href="#Sparse-Attention" class="headerlink" title="Sparse Attention"></a>Sparse Attention</h2><p>出发点: 减小自注意力的 $\Theta(n^2)$ 时间复杂度.</p>
 <p>简单的稀疏注意力只选择一部分位置的自注意力进行计算. 这种选择可以基于不同的策略, 例如固定的或者学习到的模式. </p>
 <p><img src="/pages/notes/Attention-Learning-Notes-Summary/BigBirdSparseAttention.png" alt="BigBirdSparseAttention"></p>
 <h2 id="Linear-Attention"><a href="#Linear-Attention" class="headerlink" title="Linear Attention"></a>Linear Attention</h2><p>假如将attention计算中的softmax去掉, 则计算 $QK^\mathsf{T}V=Q(K^\mathsf{T}V)$ 仅需 $O(n)$ 时间复杂度. 论文 <a href="/pages/notes/Attention-Learning-Notes-Summary/Efficient_Attention_Attention_With_Linear_Complexities.pdf" title="Efficient Attention: Attention with Linear Complexities">Efficient Attention: Attention with Linear Complexities</a> 中将softmax近似表达为两个softmax乘积, 即用 $\sigma_{row}(Q)\sigma_{col}(K)^\mathsf{T}V$ 代替 $\sigma_{row}(QK^\mathsf{T})V$, 而 $\sigma_{row}(Q)\sigma_{col}(K)^\mathsf{T}$ 仍然保留了softmax的行归一化性质. 我们可以抽象出正则化函数$\rho_q, \rho_k$, 则我们希望将attention表示为 $\rho_q(Q)\rho_k(K)^\mathsf{T}V$ 的形式.</p>
