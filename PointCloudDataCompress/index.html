@@ -112,7 +112,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Architecture"><span class="nav-number">2.</span> <span class="nav-text">Architecture</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#architecture"><span class="nav-number">2.</span> <span class="nav-text">Architecture</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -226,17 +226,40 @@
     <div class="post-body" itemprop="articleBody"><html><head></head><body><p>Authors: <a target="_blank" rel="noopener" href="https://github.com/csyer">Shengyao Chen</a>, <a target="_blank" rel="noopener" href="https://github.com/zyx11451">Yuxuan Zhang</a>, <a target="_blank" rel="noopener" href="https://github.com/smarthehe412">Yonglin Liu</a>, <a target="_blank" rel="noopener" href="https://github.com/CurieLuo">Qihao Luo</a></p>
 <ul>
 <li><a href="/PointCloudDataCompress/Two-stage%20Dataset%20Compression%20for%203D%20Point%20Cloud%20Data.pdf" title="Paper In PDF">Paper In PDF</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/csyer/PointCloud_Distillation_Demo">Source Code</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/csyer/PointCloud_Distillation_Demo">Source
+Code</a></li>
 </ul>
-<h4 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h4><p>Currently, there is a multitude of work based on 3D point cloud datasets. However, the current 3D datasets lack effective distillation methods. This paper presents a two-stage dataset compression approach for 3D point cloud data, addressing the challenges of high VRAM consumption. We propose a method that decouples feature extraction from dataset compression, utilizing an encoder-decoder framework to transform and compress data. Our approach involves two distinct strategies: data synthesis through distillation and data selection via k-medoids clustering. The latter achieved good results, constructing a feasible two-stage process for data compression of 3D point cloud data. We also analyzed the poor performance of the former and believe that the dataset distillation process is severely affected by information loss. This work provides insights into the limitations of traditional data distillation methods and contributes to the understanding of dataset compression for complex data types like 3D point clouds.</p>
-<h4 id="Architecture"><a href="#Architecture" class="headerlink" title="Architecture"></a>Architecture</h4><ul>
+<h4 id="abstract">Abstract</h4>
+<p>Currently, there is a multitude of work based on 3D point cloud
+datasets. However, the current 3D datasets lack effective distillation
+methods. This paper presents a two-stage dataset compression approach
+for 3D point cloud data, addressing the challenges of high VRAM
+consumption. We propose a method that decouples feature extraction from
+dataset compression, utilizing an encoder-decoder framework to transform
+and compress data. Our approach involves two distinct strategies: data
+synthesis through distillation and data selection via k-medoids
+clustering. The latter achieved good results, constructing a feasible
+two-stage process for data compression of 3D point cloud data. We also
+analyzed the poor performance of the former and believe that the dataset
+distillation process is severely affected by information loss. This work
+provides insights into the limitations of traditional data distillation
+methods and contributes to the understanding of dataset compression for
+complex data types like 3D point clouds.</p>
+<h4 id="architecture">Architecture</h4>
+<ul>
 <li>Data Selection</li>
 </ul>
-<p><img src="/PointCloudDataCompress/DataSelection.png" alt="Data Selection"></p>
+<figure>
+<img src="/PointCloudDataCompress/DataSelection.png" alt="Data Selection">
+<figcaption aria-hidden="true">Data Selection</figcaption>
+</figure>
 <ul>
 <li>Dataset Distillation</li>
 </ul>
-<p><img src="/PointCloudDataCompress/DataDistillation.png" alt="Dataset Distillation"></p>
+<figure>
+<img src="/PointCloudDataCompress/DataDistillation.png" alt="Dataset Distillation">
+<figcaption aria-hidden="true">Dataset Distillation</figcaption>
+</figure>
 </body></html>
     </div>
 
